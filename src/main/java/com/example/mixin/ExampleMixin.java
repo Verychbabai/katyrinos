@@ -1,15 +1,9 @@
-package com.example.mixin;
-
-import net.minecraft.server.MinecraftServer;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-@Mixin(MinecraftServer.class)
-public class ExampleMixin {
-	@Inject(at = @At("HEAD"), method = "loadLevel")
-	private void init(CallbackInfo info) {
-		// This code is injected into the start of MinecraftServer.loadLevel()V
-	}
+@Mixin(Entity.class)
+public abstract class RotationMixin {
+    @Inject(method = "getHeadYaw", at = @At("HEAD"), cancellable = true)
+    private void onGetHeadYaw(CallbackInfoReturnable<Float> info) {
+        if (Killaura.enabled && (Object)this == MinecraftClient.getInstance().player) {
+            // Тут можно подменить Yaw для отрисовки модели от 3 лица
+        }
+    }
 }
